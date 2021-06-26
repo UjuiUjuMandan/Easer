@@ -254,4 +254,8 @@
     <string name="o_wireguard_tunnel_name">隧道名称</string>
     <string name="o_wireguard__set_tunnel_state">设置隧道状态</string>
     <string name="operation_wireguard">Wireguard</string>
+    <string name="obroadcast_text_hint_package">（可選）目標包名</string>
+    <string name="obroadcast_text_hint_class">（可選）目標類名</string>
+    <string name="obroadcast_l_package">包：</string>
+    <string name="obroadcast_l_class">類：</string>
 </resources>

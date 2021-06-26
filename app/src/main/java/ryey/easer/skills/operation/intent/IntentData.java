@@ -32,9 +32,18 @@ import java.util.List;
 import ryey.easer.Utils;
 import ryey.easer.skills.reusable.Extras;
 
-//TODO: Make fields final
+/**
+ * This class represents the data of an Intent.
+ * The reason we don't use Intent directly is because Intent may have Bundle
+ * as extras, but the type information for data inside the Bundle is unknown.
+ *
+ * TODO: Make fields final?
+ * TODO: In the future, this class should be the common class for all skills related to Intent.
+ */
 public class IntentData implements Parcelable {
 
+    @Nullable String target_package;
+    @Nullable String target_class;
     String action;
     List<String> category;
     String type;
@@ -52,6 +61,10 @@ public class IntentData implements Parcelable {
             return true;
         if (!(obj instanceof IntentData))
             return false;
+        if (!Utils.nullableEqual(target_package, ((IntentData) obj).target_package))
+            return false;
+        if (!Utils.nullableEqual(target_class, ((IntentData) obj).target_class))
+            return false;
         if (!Utils.nullableEqual(action, ((IntentData) obj).action))
             return false;
         if (!Utils.nullableEqual(category, ((IntentData) obj).category))
@@ -68,7 +81,8 @@ public class IntentData implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return String.format("action:%s category:%s type:%s data:%s", action, category, type, data);
+        return String.format("package:%s class:%s action:%s category:%s type:%s data:%s",
+                target_package, target_class, action, category, type, data);
     }
 
     @Override
@@ -78,6 +92,8 @@ public class IntentData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(target_package);
+        dest.writeString(target_class);
         dest.writeString(action);
         dest.writeStringList(category);
         dest.writeString(type);
@@ -97,6 +113,8 @@ public class IntentData implements Parcelable {
     };
 
     private IntentData(Parcel in) {
+        target_package = in.readString();
+        target_class = in.readString();
         action = in.readString();
         List<String> cat = new ArrayList<>();
         in.readStringList(cat);

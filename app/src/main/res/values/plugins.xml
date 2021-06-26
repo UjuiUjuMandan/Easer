@@ -114,10 +114,14 @@
     <string name="operation_broadcast">Send Broadcast</string>
     <string name="operation_start_activity">Start Activity</string>
     <string name="operation_start_service">Start Service</string>
+    <string name="obroadcast_l_package">Package:</string>
+    <string name="obroadcast_l_class">Class:</string>
     <string name="obroadcast_l_action">Action:</string>
     <string name="obroadcast_l_category">Category:</string>
     <string name="obroadcast_l_type">Type:</string>
     <string name="obroadcast_l_data">Data:</string>
+    <string name="obroadcast_text_hint_package">(Optional) Target package</string>
+    <string name="obroadcast_text_hint_class">(Optional) Target class</string>
     <string name="text_extras">Extras</string>
     <string name="text_key">Key</string>
     <string name="text_value">Value</string>
