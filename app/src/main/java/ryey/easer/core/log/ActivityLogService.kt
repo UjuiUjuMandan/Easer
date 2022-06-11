@@ -29,6 +29,7 @@ import android.os.Bundle
 import android.os.IBinder
 import com.orhanobut.logger.Logger
 import ryey.easer.core.EHService
+import ryey.easer.core.ServiceUtils
 
 import java.util.*
 
@@ -57,10 +58,12 @@ class ActivityLogService : Service() {
     }
 
     override fun onCreate() {
+        ServiceUtils.startNotification(this)
         registerReceiver(mReceiver, mFilter)
     }
 
     override fun onDestroy() {
+        ServiceUtils.stopNotification(this)
         unregisterReceiver(mReceiver)
     }
 

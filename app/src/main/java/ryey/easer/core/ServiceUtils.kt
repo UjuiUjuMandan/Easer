@@ -41,7 +41,13 @@ class ServiceUtils {
 
         private var startCount = 0
         private var stopCount = 0
-        
+
+        /**
+         * This function should be called by core persistent Easer services when they are started.
+         * It performs the required foreground registration by Android (i.e. startForeground()),
+         * and groups the notifications as one to avoid crowding user.
+         * The caller of this function is expected to call stopNotification() when they are stopped.
+         */
         fun startNotification(service: Service) {
             startCount++
             if (!SettingsUtils.showNotification(service))
@@ -84,6 +90,10 @@ class ServiceUtils {
             }
         }
 
+        /**
+         * This function should be called by core persistent Easer services when they are stopped.
+         * It removed the foreground notification by this service.
+         */
         fun stopNotification(service: Service) {
             stopCount++
             if (!SettingsUtils.showNotification(service))
