@@ -20,6 +20,7 @@
 package ryey.easer.skills.usource.bluetooth_device;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -146,6 +147,7 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
         return view;
     }
 
+    @SuppressLint("MissingPermission")
     @Nullable
     private String resolveHWAddress(String hwaddress) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
