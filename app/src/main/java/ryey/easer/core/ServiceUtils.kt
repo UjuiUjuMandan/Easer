@@ -25,6 +25,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import ryey.easer.R
@@ -67,7 +68,8 @@ class ServiceUtils {
             val pendingIntent = PendingIntent.getActivity(
                     service, REQ_CODE, Intent(service, MainActivity::class.java), 0)
             builder
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.drawable.ic_icon_mono)
+                    .setLargeIcon(BitmapFactory.decodeResource(service.resources, R.mipmap.ic_launcher))
                     .setContentText(service.getString(
                             R.string.text_notification_running_indicator_content,
                             service.getString(R.string.easer)))
