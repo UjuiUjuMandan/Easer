@@ -45,7 +45,7 @@ public class NotificationEventListenerService extends NotificationListenerServic
     private static final String EXTRA_DATA = "ryey.easer.skills.event.notification.extra.DATA";
     private static final String EXTRA_URI = "ryey.easer.skills.event.notification.extra.URI";
 
-    List<CompoundData> dataList = new ArrayList<>();
+    List<CompoundData> dataWithSlotUriList = new ArrayList<>();
 
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -112,11 +112,11 @@ public class NotificationEventListenerService extends NotificationListenerServic
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        for (CompoundData compoundData : dataList) {
-            NotificationEventData eventData = compoundData.notificationEventData;
+        for (CompoundData dataWithSlotUri : dataWithSlotUriList) {
+            NotificationEventData eventData = dataWithSlotUri.notificationEventData;
             Intent intent = match(sbn, eventData.app, eventData.title, eventData.content)
-                    ? NotificationSlot.NotifyIntentPrototype.obtainPositiveIntent(compoundData.uri)
-                    : NotificationSlot.NotifyIntentPrototype.obtainNegativeIntent(compoundData.uri);
+                    ? NotificationSlot.NotifyIntentPrototype.obtainPositiveIntent(dataWithSlotUri.slotUri)
+                    : NotificationSlot.NotifyIntentPrototype.obtainNegativeIntent(dataWithSlotUri.slotUri);
             intent.putExtra(NotificationEventData.AppDynamics.id, sbn.getPackageName());
             Bundle extras = sbn.getNotification().extras;
             String title = extras.getCharSequence(Notification.EXTRA_TITLE) != null
@@ -152,37 +152,37 @@ public class NotificationEventListenerService extends NotificationListenerServic
         Logger.i("NotificationEventListenerService onDestroy()");
         super.onDestroy();
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mReceiver);
-        if (dataList.size() > 0) {
+        if (dataWithSlotUriList.size() > 0) {
             Logger.w("Listener to notifications not cleaned up completely: %d left",
-                    dataList.size());
+                    dataWithSlotUriList.size());
         }
     }
 
     private void addListenToNotification(
             NotificationEventData notificationEventData,
-            Uri uri) {
-        dataList.add(new CompoundData(
+            Uri slotUri) {
+        dataWithSlotUriList.add(new CompoundData(
                 notificationEventData,
-                uri));
+                slotUri));
     }
 
     private void delListenToNotification(
             NotificationEventData notificationEventData,
-            Uri uri) {
+            Uri slotUri) {
         CompoundData compoundData = new CompoundData(
                 notificationEventData,
-                uri);
-        dataList.remove(compoundData);
+                slotUri);
+        dataWithSlotUriList.remove(compoundData);
     }
 
     private static class CompoundData {
         final NotificationEventData notificationEventData;
-        final Uri uri;
+        final Uri slotUri;
         private CompoundData(
                 NotificationEventData notificationEventData,
-                Uri uri) {
+                Uri slotUri) {
             this.notificationEventData = notificationEventData;
-            this.uri = uri;
+            this.slotUri = slotUri;
         }
 
         @Override
@@ -191,7 +191,8 @@ public class NotificationEventListenerService extends NotificationListenerServic
                 return false;
             if (!(obj instanceof CompoundData))
                 return false;
-            return uri.equals(((CompoundData) obj).uri);
+            return notificationEventData.equals(((CompoundData) obj).notificationEventData) &&
+                    slotUri.equals(((CompoundData) obj).slotUri);
         }
     }
 }
