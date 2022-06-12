@@ -42,13 +42,15 @@ public class NotificationSlot extends SelfNotifiableSlot<NotificationEventData> 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void listen() {
-        NotificationEventListenerService.listen(context, eventData, uri);
+        super.listen();
+        NotificationEventListenerService.listen(context, eventData, slotUri);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void cancel() {
-        NotificationEventListenerService.cancel(context, eventData, uri);
+        super.cancel();
+        NotificationEventListenerService.cancel(context, eventData, slotUri);
     }
 
     @Override
