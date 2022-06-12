@@ -1,0 +1,12 @@
+Better IntentOperationSkill && Bug fixes && i18n update && dev updates
+
+* Added "package" and "class" to IntentOperationSkill
+* Fix a service not in foreground
+* Fix notification icon rendered as white block
+* Fix NotificationEvent not correctly listened
+* I18n update: Portuguese (Brazil), Turkish, Italian,    Vietnamese, Russian, Ukrainian
+* Dev update:
+:* More tests: EHServiceTest, import/export tests
+:* Fix some lint errors
+
+* Improve GitHub workflow for easier maintenance (though still has lint errors)
