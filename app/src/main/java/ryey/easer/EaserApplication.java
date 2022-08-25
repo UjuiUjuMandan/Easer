@@ -73,7 +73,7 @@ public class EaserApplication extends MultiDexApplication {
                 .getString(getString(R.string.key_pref_theme), "0"));
         AppCompatDelegate.setDefaultNightMode(THEME_NIGHT_MODE[setting_theme]);
 
-        startService(new Intent(this, ActivityLogService.class));
+        ContextCompat.startForegroundService(this, new Intent(this, ActivityLogService.class));
 
         Logger.log(Logger.ASSERT, null, "======Easer started======", null);
     }

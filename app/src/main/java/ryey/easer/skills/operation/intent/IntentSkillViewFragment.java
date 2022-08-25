@@ -41,6 +41,8 @@ import ryey.easer.skills.reusable.EditExtraFragment;
 public class IntentSkillViewFragment extends SkillViewFragment<IntentOperationData> implements Reused {
     private String skillID;
 
+    private EditText m_text_package;
+    private EditText m_text_class;
     private EditText m_text_action;
     private EditText m_text_category;
     private EditText m_text_type;
@@ -51,6 +53,8 @@ public class IntentSkillViewFragment extends SkillViewFragment<IntentOperationDa
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.skill_operation__broadcast, container, false);
+        m_text_package = view.findViewById(R.id.text_package);
+        m_text_class = view.findViewById(R.id.text_class);
         m_text_action = view.findViewById(R.id.text_action);
         m_text_category = view.findViewById(R.id.text_category);
         m_text_type = view.findViewById(R.id.text_type);
@@ -63,6 +67,8 @@ public class IntentSkillViewFragment extends SkillViewFragment<IntentOperationDa
     @Override
     protected void _fill(@ValidData @NonNull IntentOperationData data) {
         IntentData rdata = data.data;
+        m_text_package.setText(rdata.target_package);
+        m_text_class.setText(rdata.target_class);
         m_text_action.setText(rdata.action);
         m_text_category.setText(Utils.StringCollectionToString(rdata.category, false));
         m_text_type.setText(rdata.type);
@@ -76,6 +82,8 @@ public class IntentSkillViewFragment extends SkillViewFragment<IntentOperationDa
     @Override
     public IntentOperationData getData() throws InvalidDataInputException {
         IntentData data = new IntentData();
+        data.target_package = m_text_package.getText().toString();
+        data.target_class = m_text_class.getText().toString();
         data.action = m_text_action.getText().toString();
         data.category = Utils.stringToStringList(m_text_category.getText().toString());
         data.type = m_text_type.getText().toString();

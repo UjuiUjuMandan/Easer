@@ -16,6 +16,12 @@ public abstract class IntentLoader<T extends IntentOperationData> extends ryey.e
     protected Intent getIntent(@ValidData @NonNull IntentOperationData data) {
         IntentData iData = data.data;
         Intent intent = new Intent();
+        if (iData.target_package != null) {
+            intent.setPackage(iData.target_package);
+        }
+        if (iData.target_class != null) {
+            intent.setClassName(iData.target_package, iData.target_class);
+        }
         intent.setAction(iData.action);
         if (iData.category != null)
             for (String category : iData.category) {

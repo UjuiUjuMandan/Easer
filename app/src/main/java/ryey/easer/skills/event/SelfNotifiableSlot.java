@@ -45,7 +45,8 @@ public abstract class SelfNotifiableSlot<T extends EventData> extends AbstractSl
      * Mechanisms and fields used to notify the slot itself, and then proceed to `onPositiveNotified()`.
      * This is because some system-level checking mechanisms (e.g. data/time) need a PendingIntent.
      */
-    protected final Uri uri = Uri.parse(String.format(Locale.US, "slot://%s/%d", getClass().getSimpleName(), hashCode()));
+    // This Uri is used to restrict the (internal to the slot) broadcasts are only received by the current slot.
+    protected final Uri slotUri = Uri.parse(String.format(Locale.US, "slot://%s/%d", getClass().getSimpleName(), hashCode()));
     // After sent, this will trigger onPositiveNotified().
     // Meant to be used when the event is going to a positive state.
     protected final PendingIntent notifySelfIntent_positive;
@@ -70,13 +71,13 @@ public abstract class SelfNotifiableSlot<T extends EventData> extends AbstractSl
         filter.addAction(ACTION_SATISFIED);
         filter.addAction(ACTION_UNSATISFIED);
         filter.addCategory(CATEGORY_NOTIFY_SLOT);
-        filter.addDataScheme(uri.getScheme());
-        filter.addDataAuthority(uri.getAuthority(), null);
-        filter.addDataPath(uri.getPath(), PatternMatcher.PATTERN_LITERAL);
+        filter.addDataScheme(slotUri.getScheme());
+        filter.addDataAuthority(slotUri.getAuthority(), null);
+        filter.addDataPath(slotUri.getPath(), PatternMatcher.PATTERN_LITERAL);
 
         Intent intent = new Intent(ACTION_SATISFIED);
         intent.addCategory(CATEGORY_NOTIFY_SLOT);
-        intent.setData(uri);
+        intent.setData(slotUri);
         notifySelfIntent_positive = PendingIntent.getBroadcast(context, 0, intent, 0);
         intent.setAction(ACTION_UNSATISFIED);
         notifySelfIntent_negative = PendingIntent.getBroadcast(context, 0, intent, 0);

@@ -29,6 +29,8 @@ import ryey.easer.skills.reusable.Extras;
 public class IntentOperationData implements OperationData, Reused {
     private static final String ns = null;
 
+    private static final String PACKAGE = "package";
+    private static final String CLASS = "class";
     private static final String ACTION = "action";
     private static final String CATEGORY = "category";
     private static final String TYPE = "type";
@@ -37,22 +39,20 @@ public class IntentOperationData implements OperationData, Reused {
 
     private String skillID;
 
-    IntentData data = new IntentData();
+    final IntentData data;
 
     IntentOperationData(IntentData data) {
         this.data = data;
     }
 
     IntentOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
-        parse(data, format, version);
-    }
-
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
                     JSONObject jsonObject = new JSONObject(data);
                     IntentData intentData = new IntentData();
+                    intentData.target_package = jsonObject.optString(PACKAGE, null);
+                    intentData.target_class = jsonObject.optString(CLASS, null);
                     intentData.action = jsonObject.optString(ACTION, null);
 
                     JSONArray jsonArray = jsonObject.optJSONArray(CATEGORY);
@@ -90,6 +90,8 @@ public class IntentOperationData implements OperationData, Reused {
             default:
                 JSONObject jsonObject = new JSONObject();
                 try {
+                    jsonObject.put(PACKAGE, data.target_package);
+                    jsonObject.put(CLASS, data.target_class);
                     jsonObject.put(ACTION, data.action);
 
                     if (data.category != null && data.category.size() > 0) {
@@ -122,6 +124,8 @@ public class IntentOperationData implements OperationData, Reused {
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
     public boolean isValid() {
+        if (Utils.isBlank(data.target_package) && !Utils.isBlank(data.target_class))  // If there is a target class, there must also be a target package.
+            return false;
         if (!Utils.isBlank(data.action))
             return true;
         if (data.category != null && !data.category.isEmpty())
@@ -175,6 +179,10 @@ public class IntentOperationData implements OperationData, Reused {
     @Override
     public Set<String> placeholders() {
         Set<String> placeholders = new ArraySet<>();
+        if (data.target_package != null)
+            placeholders.addAll(Utils.extractPlaceholder(data.target_package));
+        if (data.target_class != null)
+            placeholders.addAll(Utils.extractPlaceholder(data.target_class));
         if (data.action != null)
             placeholders.addAll(Utils.extractPlaceholder(data.action));
         if (data.category != null) {

@@ -25,6 +25,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import ryey.easer.R
@@ -41,7 +42,13 @@ class ServiceUtils {
 
         private var startCount = 0
         private var stopCount = 0
-        
+
+        /**
+         * This function should be called by core persistent Easer services when they are started.
+         * It performs the required foreground registration by Android (i.e. startForeground()),
+         * and groups the notifications as one to avoid crowding user.
+         * The caller of this function is expected to call stopNotification() when they are stopped.
+         */
         fun startNotification(service: Service) {
             startCount++
             if (!SettingsUtils.showNotification(service))
@@ -67,7 +74,8 @@ class ServiceUtils {
             val pendingIntent = PendingIntent.getActivity(
                     service, REQ_CODE, Intent(service, MainActivity::class.java), 0)
             builder
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.drawable.ic_icon_mono)
+                    .setLargeIcon(BitmapFactory.decodeResource(service.resources, R.mipmap.ic_launcher))
                     .setContentText(service.getString(
                             R.string.text_notification_running_indicator_content,
                             service.getString(R.string.easer)))
@@ -84,6 +92,10 @@ class ServiceUtils {
             }
         }
 
+        /**
+         * This function should be called by core persistent Easer services when they are stopped.
+         * It removed the foreground notification by this service.
+         */
         fun stopNotification(service: Service) {
             stopCount++
             if (!SettingsUtils.showNotification(service))
