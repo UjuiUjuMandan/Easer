@@ -188,7 +188,8 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
         return new BTDeviceUSourceData(editText.getText().toString().split("\n"));
     }
 
-    class BTDeviceWrapper {
+    @SuppressLint("MissingPermission")
+    static class BTDeviceWrapper {
         final BluetoothDevice device;
         BTDeviceWrapper(BluetoothDevice device) {
             this.device = device;
