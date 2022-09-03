@@ -1,6 +1,7 @@
 package ryey.easer.skills.operation.intent.operations;
 
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
@@ -15,8 +16,9 @@ public class ActivityLoader extends IntentLoader<IntentOperationData> {
 
     @Override
     public void _load(@NonNull IntentOperationData data, @NonNull OnResultCallback callback) {
-
-        context.startActivity(this.getIntent(data));
+        Intent intent = getIntent(data);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
         callback.onResult(true);
     }
 }
