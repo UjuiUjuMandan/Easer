@@ -63,7 +63,7 @@ class SendNotificationLoader(context: Context?) : OperationLoader<SendNotificati
                 .setPriority(NotificationCompat.PRIORITY_MIN)
         }
 
-        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setSmallIcon(R.drawable.ic_icon_mono)
         builder.setContentTitle(data.title)
         builder.setContentText(data.content)
         notificationManager.notify(NOTIFICATION_ID, builder.build())
