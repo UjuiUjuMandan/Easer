@@ -19,6 +19,7 @@
 
 package ryey.easer.skills.usource.bluetooth_device;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -30,6 +31,7 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class BTDeviceSlot extends AbstractSlot<BTDeviceUSourceData> {
 
+    @SuppressLint("MissingPermission")
     private static Bundle dynamicsForCurrentDevice(BluetoothDevice bluetoothDevice) {
         Bundle bundle = new Bundle();
         bundle.putString(BTDeviceUSourceData.DeviceNameDynamics.id, bluetoothDevice.getName());
