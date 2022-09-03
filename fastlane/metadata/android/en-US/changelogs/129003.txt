@@ -1,0 +1,9 @@
+Bug fixes && i18n update && dev updates
+
+* Fix #441
+* Fix #437
+* Dev changes:
+	:* Fix or supress (known to be correct) some lint warnings
+	:* Make BTDeviceWrapper static
+* I18n update: Ukrainian, Portuguese, Italian, Dutch
+* CI update: split the jobs for easier understanding from overview
