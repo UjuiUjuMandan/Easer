@@ -18,6 +18,7 @@
  */
 package ryey.easer.skills.operation.send_notification
 
+import android.app.NotificationChannel
 import ryey.easer.skills.operation.OperationLoader
 import ryey.easer.skills.operation.send_notification.SendNotificationOperationData
 import ryey.easer.skills.operation.send_notification.SendNotificationLoader
@@ -46,7 +47,22 @@ class SendNotificationLoader(context: Context?) : OperationLoader<SendNotificati
     override fun _load(@ValidData data: SendNotificationOperationData, callback: OnResultCallback) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val builder = NotificationCompat.Builder(context)
+
+        val builder: NotificationCompat.Builder
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "easer_skill_operation_send_notification"
+            val channelName = "Easer Send Notification Operation"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val notificationChannel = NotificationChannel(channelId, channelName, importance)
+            notificationManager!!.createNotificationChannel(notificationChannel)
+            builder = NotificationCompat.Builder(context, channelId)
+            builder.setAutoCancel(true)
+        } else {
+            @Suppress("DEPRECATION")
+            builder = NotificationCompat.Builder(context)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+        }
+
         builder.setSmallIcon(R.mipmap.ic_launcher)
         builder.setContentTitle(data.title)
         builder.setContentText(data.content)
