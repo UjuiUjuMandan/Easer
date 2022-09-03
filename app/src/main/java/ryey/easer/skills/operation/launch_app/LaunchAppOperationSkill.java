@@ -33,6 +33,11 @@ import ryey.easer.commons.local_skill.operationskill.PrivilegeUsage;
 import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.operation.OperationLoader;
 
+/**
+ * Warning: This skill will become deprecated in favour of ryey.easer.skills.operation.intent.
+ * ryey.easer.skills.operation.intent does not yet support Launch App yet, but PRs are welcome.
+ * Do not make changes to this skill unless it is really essential and before the aforementioned change happens.
+ */
 public class LaunchAppOperationSkill implements OperationSkill<LaunchAppOperationData> {
 
     @NonNull
