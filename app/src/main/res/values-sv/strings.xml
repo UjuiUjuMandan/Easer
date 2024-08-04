@@ -128,19 +128,19 @@
 \n 
 \n 
 \n(I grundutförande är allting påslaget.)</string>
-    <string name="welcome_message_3">Skript är strukturerade som <a href="https://sv.wikipedia.org/wiki/Tr%C3%A4d_(datastruktur)">träd</a>, genom att välja den relevanta föräldern.
-\n 
-\nI varje gren utförs AND-logik.
-\nMellan grenar utförs OR-logik.
+    <string name="welcome_message_3">Skript är strukturerade som <a href="https://sv.wikipedia.org/wiki/Graf_(datastruktur)">grafer</a>, genom att välja de relevanta föregångarna (föräldrar).
 \n
-\n
-\nAtt utvidga träd till grafer är planerat, men ännu inte implementerat.</string>
+\nI stort sett:
+\n- Från föregångare till efterträdare, utförs AND-logik.
+\n- Mellan noder utförs OR-logik.
+\n- Flera föregångare har AND-relation, angående efterföljaren.</string>
     <string name="title_welcome_message_privacy">Integritet!</string>
     <string name="welcome_message_privacy">Integritet är viktigt!
 \n
 \nEaser är <a href="https://en.wikipedia.org/wiki/Free_software">fri programvara</a> (programvara med öppen källkod), för att garantera att alla kan använda, granska, ändra och dela koden.
 \n
-\nDU äger varje bit av din data. Allting bor på din enhet, inklusive loggar.</string>
+\nDU äger varje bit av din data. Allting bor på din enhet, inklusive loggar.
+\nSe <a href="https://github.com/renyuneyun/Easer/blob/master/Privacy.md">Privacy-beskrivning </a> för mer information</string>
     <string name="alert_update_storage_data_title">Gammal dataversion hittades</string>
     <string name="alert_update_storage_data">Välj \"Konvertera data\" i inställningarna för att uppdatera din data till det nya formatet, för att bli kompatibelt.</string>
     <string name="message_future_change_title">Ändras snart</string>
